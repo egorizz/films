@@ -1,0 +1,41 @@
+html {
+  font-family: "Inter", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+  line-height: 100%;
+
+  box-sizing: border-box;
+
+  color: #584a33;
+}
+
+*,
+*::after,
+*::before {
+  box-sizing: inherit;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+
+  background-color: #f4f6f7;
+}
+
+ul {
+  margin: 0;
+  padding: 0;
+
+  list-style: none;
+}
+
+li {
+  margin: 0;
+  padding: 0;
+}
+
+a {
+  text-decoration: none;
+
+  color: inherit;
+}

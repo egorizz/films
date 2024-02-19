@@ -1,0 +1,12 @@
+.container {
+  display: grid;
+  height: 100vh;
+  grid-template-columns: 1fr 1fr;
+  grid-gap: 20px;
+  width: 100%;
+  max-width: 1010px;
+  margin: 0 auto;
+  padding: 0 32px;
+  padding-top: 21px;
+  background-color: #fff;
+}
