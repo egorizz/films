@@ -18,10 +18,10 @@ const Container = ({ movies, isLoading, error }) => {
         movies.map((movie) => (
           <MovieCard
             key={movie.id}
-            imageSrc={movie.poster_path}
-            title={movie.title}
-            subtitle={movie.release_date}
-            description={movie.overview}
+            imageSrc={movie.poster.previewUrl}
+            title={movie.name}
+            subtitle={movie.year}
+            description={movie.description}
           />
         ))
       )}

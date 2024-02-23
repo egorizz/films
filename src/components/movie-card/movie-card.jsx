@@ -1,7 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import './movie-card.scss'
-import { format } from 'date-fns'
 
 import ImageLoader from '../imageLoader'
 
@@ -22,13 +21,13 @@ const truncateDescription = (description, maxLength) => {
 const MovieCard = ({ imageSrc, title, subtitle, categories, description }) => (
   <div className="movie-card">
     {imageSrc ? (
-      <ImageLoader src={'https://image.tmdb.org/t/p/w500' + imageSrc} alt={title} />
+      <ImageLoader src={imageSrc} alt={title} />
     ) : (
       <img src="/img/movie.webp" alt={title} className="movie-card__image" />
     )}
     <div className="movie-card__info movie-card__info_size">
       <h1 className="movie-card__title">{title}</h1>
-      <h3 className="movie-card__subtitle">{subtitle && format(new Date(subtitle), 'MMMM d, yyyy')}</h3>
+      <h3 className="movie-card__subtitle">{subtitle}</h3>
       <p className="movie-card__categories">
         {categories.map((category, index) => (
           <span key={index}>{category}</span>

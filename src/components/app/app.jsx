@@ -17,9 +17,8 @@ const App = () => {
   const fetchMovies = useCallback(async (query, page) => {
     if (!query) return
 
-    const apiKey =
-      'eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI3N2Q2ZDYwY2M0OTE5MWRhNzM4NDJhZThkYmMxMDJiZiIsInN1YiI6IjY1ZDFkYmZmZGI3MmMwMDE4NjM5YmE0ZSIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.CVO6-g2WCZESmxe8qxjm12DdBwccmxZWQchgXMaotCM'
-    const url = `https://api.themoviedb.org/3/search/movie?query=${query}&page=${page}`
+    const apiKey = 'Q813DBJ-SS5M9X5-QF0Z0SQ-KFS5A59'
+    const url = `https://api.kinopoisk.dev/v1.4/movie/search?page=${page}&limit=6&query=${query}`
 
     setIsLoading(true)
     setError(null)
@@ -28,19 +27,18 @@ const App = () => {
       const response = await fetch(url, {
         method: 'GET',
         headers: {
-          Authorization: `Bearer ${apiKey}`,
+          'X-API-KEY': apiKey,
           accept: 'application/json',
         },
       })
-      const { results, total_results } = await response.json()
+      const { docs, total } = await response.json()
 
-      if (total_results === 0) {
+      if (total === 0) {
         throw new Error('No movies found.')
       }
-      console.log(total_results)
-      setTotalResults(total_results)
+      setTotalResults(total)
 
-      setMovies(results)
+      setMovies(docs)
     } catch (err) {
       setError(err.message || 'Failed to load movies.')
     } finally {
