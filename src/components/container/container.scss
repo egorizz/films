@@ -1,6 +1,6 @@
 .container {
   display: grid;
-  height: 100vh;
+  min-height: 100vh;
   grid-template-columns: 1fr 1fr;
   grid-gap: 20px;
   width: 100%;

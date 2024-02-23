@@ -3,6 +3,8 @@ import PropTypes from 'prop-types'
 import './movie-card.scss'
 import { format } from 'date-fns'
 
+import ImageLoader from '../imageLoader'
+
 const truncateDescription = (description, maxLength) => {
   if (description.length <= maxLength) {
     return description
@@ -20,7 +22,7 @@ const truncateDescription = (description, maxLength) => {
 const MovieCard = ({ imageSrc, title, subtitle, categories, description }) => (
   <div className="movie-card">
     {imageSrc ? (
-      <img src={'https://image.tmdb.org/t/p/w500' + imageSrc} alt={title} className="movie-card__image" />
+      <ImageLoader src={'https://image.tmdb.org/t/p/w500' + imageSrc} alt={title} />
     ) : (
       <img src="/img/movie.webp" alt={title} className="movie-card__image" />
     )}
