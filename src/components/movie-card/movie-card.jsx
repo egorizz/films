@@ -27,7 +27,7 @@ const MovieCard = ({ imageSrc, title, subtitle, categories, description }) => (
       <img src="/img/movie.webp" alt={title} className="movie-card__image" />
     )}
     <div className="movie-card__info movie-card__info_size">
-      <h1 className="movie-card__title">{title}</h1>
+      <h1 className="movie-card__title">{truncateDescription(title, 30)}</h1>
       <h3 className="movie-card__subtitle">{subtitle && format(new Date(subtitle), 'MMMM d, yyyy')}</h3>
       <p className="movie-card__categories">
         {categories.map((category, index) => (
