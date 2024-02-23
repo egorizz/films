@@ -1,4 +1,5 @@
 import { Spin } from 'antd'
+import './imageLoader.scss'
 import React, { useState } from 'react'
 
 const ImageLoader = ({ src, alt }) => {
@@ -9,18 +10,12 @@ const ImageLoader = ({ src, alt }) => {
   }
 
   return (
-    <div style={{ position: 'relative', width: '100%', height: '100%' }}>
+    <>
       {loading && (
-        <div
-          style={{
-            position: 'absolute',
-            top: '50%',
-            left: '50%',
-            transform: 'translate(-50%, -50%)',
-            zIndex: 1,
-          }}
-        >
-          <Spin />
+        <div className="loader-container">
+          <div className="loader-container__loader">
+            <Spin />
+          </div>
         </div>
       )}
       <img
@@ -30,7 +25,7 @@ const ImageLoader = ({ src, alt }) => {
         style={{ display: loading ? 'none' : 'block' }}
         className="movie-card__image"
       />
-    </div>
+    </>
   )
 }
 
