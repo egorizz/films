@@ -1,9 +1,10 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import PropTypes from 'prop-types'
 import './movie-card.scss'
 import { format } from 'date-fns'
 
 import ImageLoader from '../imageLoader'
+import { GenresContext } from '../genresProvider/genresProvider'
 
 const truncateDescription = (description, maxLength) => {
   if (description.length <= maxLength) {
@@ -19,25 +20,32 @@ const truncateDescription = (description, maxLength) => {
   return `${truncated}...`
 }
 
-const MovieCard = ({ imageSrc, title, subtitle, categories, description }) => (
-  <div className="movie-card">
-    {imageSrc ? (
-      <ImageLoader src={'https://image.tmdb.org/t/p/w500' + imageSrc} alt={title} />
-    ) : (
-      <img src="/img/movie.webp" alt={title} className="movie-card__image" />
-    )}
-    <div className="movie-card__info movie-card__info_size">
-      <h1 className="movie-card__title">{truncateDescription(title, 30)}</h1>
-      <h3 className="movie-card__subtitle">{subtitle && format(new Date(subtitle), 'MMMM d, yyyy')}</h3>
-      <p className="movie-card__categories">
-        {categories.map((category, index) => (
-          <span key={index}>{category}</span>
-        ))}
-      </p>
-      <p className="movie-card__description">{truncateDescription(description, 100)}</p>
+const MovieCard = ({ imageSrc, title, subtitle, categories, description }) => {
+  const genres = useContext(GenresContext)
+  console.log(genres)
+  console.log(categories)
+  return (
+    <div className="movie-card">
+      {imageSrc ? (
+        <ImageLoader src={'https://image.tmdb.org/t/p/w500' + imageSrc} alt={title} />
+      ) : (
+        <img src="/img/movie.webp" alt={title} className="movie-card__image" />
+      )}
+      <div className="movie-card__info movie-card__info_size">
+        <h1 className="movie-card__title">{truncateDescription(title, 30)}</h1>
+        <h3 className="movie-card__subtitle">{subtitle && format(new Date(subtitle), 'MMMM d, yyyy')}</h3>
+        <p className="movie-card__categories">
+          {genres &&
+            categories.map((category) => {
+              const genre = genres[category]
+              return <span key={category}>{genre}</span>
+            })}
+        </p>
+        <p className="movie-card__description">{truncateDescription(description, 100)}</p>
+      </div>
     </div>
-  </div>
-)
+  )
+}
 
 MovieCard.propTypes = {
   imageSrc: PropTypes.string.isRequired,
@@ -49,7 +57,7 @@ MovieCard.propTypes = {
 
 MovieCard.defaultProps = {
   subtitle: '',
-  categories: ['Action', 'Drama'],
+  categories: [],
   description: '',
 }
 

@@ -3,6 +3,14 @@
   height: 279px;
 
   box-shadow: 0px 4px 12px 0px #00000026;
+
+  @media (max-width: 980px) {
+    width: 451px;
+  }
+
+  @media (max-width: 580px) {
+    width: initial;
+  }
 }
 
 .movie-card__image {
@@ -12,6 +20,7 @@
 
 .movie-card__categories {
   display: flex;
+  flex-wrap: wrap;
   gap: 3px;
 }
 .movie-card__categories span {

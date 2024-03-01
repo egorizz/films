@@ -2,9 +2,11 @@ import React, { useEffect, useState, useCallback } from 'react'
 import './app.scss'
 import debounce from 'lodash/debounce'
 
+import { API_KEY } from '../../config'
 import Container from '../container'
 import SearchInput from '../searchInput'
 import MoviePagination from '../moviePagination'
+import GenresProvider from '../genresProvider'
 
 const App = () => {
   const [searchQuery, setSearchQuery] = useState('')
@@ -17,8 +19,6 @@ const App = () => {
   const fetchMovies = useCallback(async (query, page) => {
     if (!query) return
 
-    const apiKey =
-      'eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI3N2Q2ZDYwY2M0OTE5MWRhNzM4NDJhZThkYmMxMDJiZiIsInN1YiI6IjY1ZDFkYmZmZGI3MmMwMDE4NjM5YmE0ZSIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.CVO6-g2WCZESmxe8qxjm12DdBwccmxZWQchgXMaotCM'
     const url = `https://api.themoviedb.org/3/search/movie?query=${query}&page=${page}`
 
     setIsLoading(true)
@@ -28,7 +28,7 @@ const App = () => {
       const response = await fetch(url, {
         method: 'GET',
         headers: {
-          Authorization: `Bearer ${apiKey}`,
+          Authorization: `Bearer ${API_KEY}`,
           accept: 'application/json',
         },
       })
@@ -62,11 +62,13 @@ const App = () => {
   }, 500)
 
   return (
-    <div className="top-container">
-      <SearchInput onChange={handleSearchInputChange} />
-      <Container movies={movies} isLoading={isLoading} error={error} />
-      {Boolean(totalResults) && <MoviePagination totalResults={totalResults} setPage={setPage} />}
-    </div>
+    <GenresProvider>
+      <div className="top-container">
+        <SearchInput onChange={handleSearchInputChange} />
+        <Container movies={movies} isLoading={isLoading} error={error} />
+        {Boolean(totalResults) && <MoviePagination totalResults={totalResults} setPage={setPage} />}
+      </div>
+    </GenresProvider>
   )
 }
 

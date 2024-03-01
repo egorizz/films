@@ -22,6 +22,7 @@ const Container = ({ movies, isLoading, error }) => {
             title={movie.title}
             subtitle={movie.release_date}
             description={movie.overview}
+            categories={movie.genre_ids}
           />
         ))
       )}
