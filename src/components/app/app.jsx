@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useCallback } from 'react'
 import './app.scss'
 import debounce from 'lodash/debounce'
+import { Tabs } from 'antd'
 
 import { API_KEY } from '../../config'
 import Container from '../container'
@@ -9,6 +10,8 @@ import MoviePagination from '../moviePagination'
 import GenresProvider from '../genresProvider'
 import SessionProvider from '../sessionProvider/sessionProvider'
 import MovieCard from '../movie-card'
+
+const { TabPane } = Tabs
 
 const App = () => {
   const [searchQuery, setSearchQuery] = useState('')
@@ -82,25 +85,32 @@ const App = () => {
     <SessionProvider>
       <GenresProvider>
         <div className="top-container">
-          <SearchInput onChange={handleSearchInputChange} />
-          <Container
-            movies={movies}
-            isLoading={isLoading}
-            error={error}
-            renderMovie={(movie) => (
-              <MovieCard
-                key={movie.id}
-                imageSrc={movie.poster_path}
-                title={movie.title}
-                subtitle={movie.release_date}
-                description={movie.overview}
-                categories={movie.genre_ids}
-                rating={rating[movie.id] || 0}
-                onRate={(value) => handleRateChange(movie.id, value)}
+          <Tabs defaultActiveKey="1" className="ant-tabs">
+            <TabPane tab="Search" key="1">
+              <SearchInput onChange={handleSearchInputChange} />
+              <Container
+                movies={movies}
+                isLoading={isLoading}
+                error={error}
+                renderMovie={(movie) => (
+                  <MovieCard
+                    key={movie.id}
+                    imageSrc={movie.poster_path}
+                    title={movie.title}
+                    subtitle={movie.release_date}
+                    description={movie.overview}
+                    categories={movie.genre_ids}
+                    rating={rating[movie.id] || 0} // Передача рейтинга фильма в компонент MovieCard
+                    onRate={(value) => handleRateChange(movie.id, value)}
+                  />
+                )}
               />
-            )}
-          />
-          {Boolean(totalResults) && <MoviePagination totalResults={totalResults} setPage={setPage} />}
+              {Boolean(totalResults) && <MoviePagination totalResults={totalResults} setPage={setPage} />}
+            </TabPane>
+            <TabPane tab="Rated" key="2">
+              Content of Tab Pane 2
+            </TabPane>
+          </Tabs>
         </div>
       </GenresProvider>
     </SessionProvider>

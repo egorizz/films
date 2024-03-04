@@ -56,5 +56,22 @@
   text-align: left;
 }
 .movie-card__info_size {
-  padding-right: 40px;
+  padding-right: 20px;
+}
+.movie-card__vote-average {
+  width: 30px;
+  height: 30px;
+  text-align: center;
+  border: 2px solid #e9d100;
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 400;
+  border-radius: 50%;
+  line-height: 27px;
+}
+
+.movie-card__item-rating {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
