@@ -16,12 +16,11 @@ const useGenres = () => {
         },
       })
       const { genres } = await response.json()
-      setGenres(
-        genres.reduce((acc, obj) => {
-          acc[obj.id] = obj.name
-          return acc
-        }, {})
-      )
+      const genresMap = genres.reduce((acc, obj) => {
+        acc[obj.id] = obj.name
+        return acc
+      }, {})
+      setGenres(genresMap)
     }
     loader()
   }, [])

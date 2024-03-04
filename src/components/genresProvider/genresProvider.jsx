@@ -1,6 +1,6 @@
 import React from 'react'
 
-import useGenres from '../../hooks'
+import { useGenres } from '../../hooks'
 
 export const GenresContext = React.createContext({})
 

@@ -2,6 +2,7 @@ import React, { useContext } from 'react'
 import PropTypes from 'prop-types'
 import './movie-card.scss'
 import { format } from 'date-fns'
+import { Rate } from 'antd'
 
 import ImageLoader from '../imageLoader'
 import { GenresContext } from '../genresProvider/genresProvider'
@@ -20,10 +21,24 @@ const truncateDescription = (description, maxLength) => {
   return `${truncated}...`
 }
 
-const MovieCard = ({ imageSrc, title, subtitle, categories, description }) => {
+const MovieCard = ({ imageSrc, title, subtitle, categories, description, voteAverage }) => {
   const genres = useContext(GenresContext)
-  console.log(genres)
-  console.log(categories)
+
+  const renderGenres = () => {
+    if (!genres || !categories || categories.length === 0) return null
+
+    const renderedGenres = categories.slice(0, 2).map((categoryId, index) => {
+      const genreName = genres[categoryId]
+      return (
+        <span key={index} className="movie-card__category">
+          {genreName}
+        </span>
+      )
+    })
+
+    return renderedGenres
+  }
+
   return (
     <div className="movie-card">
       {imageSrc ? (
@@ -34,31 +49,29 @@ const MovieCard = ({ imageSrc, title, subtitle, categories, description }) => {
       <div className="movie-card__info movie-card__info_size">
         <h1 className="movie-card__title">{truncateDescription(title, 30)}</h1>
         <h3 className="movie-card__subtitle">{subtitle && format(new Date(subtitle), 'MMMM d, yyyy')}</h3>
-        <p className="movie-card__categories">
-          {genres &&
-            categories.map((category) => {
-              const genre = genres[category]
-              return <span key={category}>{genre}</span>
-            })}
-        </p>
+        <div className="movie-card__categories">{renderGenres()}</div>
         <p className="movie-card__description">{truncateDescription(description, 100)}</p>
+        <Rate allowHalf value={voteAverage} disabled />
+        <div className="movie-card__vote-average">{voteAverage}</div>
       </div>
     </div>
   )
 }
 
 MovieCard.propTypes = {
-  imageSrc: PropTypes.string.isRequired,
+  imageSrc: PropTypes.string,
   title: PropTypes.string.isRequired,
   subtitle: PropTypes.string,
-  categories: PropTypes.arrayOf(PropTypes.string),
+  categories: PropTypes.arrayOf(PropTypes.number),
   description: PropTypes.string,
+  voteAverage: PropTypes.number,
 }
 
 MovieCard.defaultProps = {
   subtitle: '',
   categories: [],
   description: '',
+  voteAverage: 0,
 }
 
 export default MovieCard
