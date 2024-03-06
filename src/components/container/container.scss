@@ -14,4 +14,8 @@
     grid-template-columns: 1fr;
     justify-items: center;
   }
+
+  @media (max-width: 550px) {
+    padding: 0;
+  }
 }
