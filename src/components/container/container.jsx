@@ -23,7 +23,7 @@ const Container = ({ movies, isLoading, error }) => {
             subtitle={movie.release_date}
             description={movie.overview}
             categories={movie.genre_ids}
-            voteAverage={movie.voteAverage} // Изменение на voteAverage для соответствия ожидаемому пропу в MovieCard
+            voteAverage={movie.vote_average} // Изменение на voteAverage для соответствия ожидаемому пропу в MovieCard
             movieId={movie.id}
           />
         ))

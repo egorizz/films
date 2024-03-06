@@ -6,6 +6,9 @@ import { Rate } from 'antd'
 
 import ImageLoader from '../imageLoader'
 import { GenresContext } from '../genresProvider/genresProvider'
+import { SessionContext } from '../sessionProvider/sessionProvider'
+import { API_KEY } from '../../config'
+import { addRate, getRate } from '../../store'
 
 const truncateDescription = (description, maxLength) => {
   if (description.length <= maxLength) {
@@ -21,15 +24,28 @@ const truncateDescription = (description, maxLength) => {
   return `${truncated}...`
 }
 
-const MovieCard = ({ imageSrc, title, subtitle, categories, description, voteAverage, onRateChange, movie }) => {
+const MovieCard = ({ imageSrc, title, subtitle, categories, description, voteAverage, movieId }) => {
   const genres = useContext(GenresContext)
-  const [raitingCount, setRaitingCount] = useState(0)
-
+  const session = useContext(SessionContext)
+  const [raitingCount, setRaitingCount] = useState(getRate(movieId))
+  console.log(title, raitingCount)
   const onGetChange = (rate) => {
     setRaitingCount(rate)
-    if (typeof onRateChange === 'function') {
-      onRateChange(rate, movie.id)
+    const options = {
+      method: 'POST',
+      headers: {
+        accept: 'application/json',
+        'Content-Type': 'application/json;charset=utf-8',
+        Authorization: `Bearer ${API_KEY}`,
+      },
+      body: JSON.stringify({ value: rate }),
     }
+
+    fetch(`https://api.themoviedb.org/3/movie/${movieId}/rating?guest_session_id=${session}`, options)
+      .then((response) => response.json())
+      .then((response) => console.log(response))
+      .catch((err) => console.error(err))
+    addRate(movieId, rate)
   }
 
   const renderGenres = () => {

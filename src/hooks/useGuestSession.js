@@ -17,8 +17,14 @@ const useGuestSession = () => {
       })
       const { guest_session_id } = await response.json()
       setSession(guest_session_id)
+      localStorage.setItem('session', guest_session_id)
     }
-    loader()
+    const localSession = localStorage.getItem('session')
+    if (!localSession) {
+      loader()
+    } else {
+      setSession(localSession)
+    }
   }, [])
 
   return session

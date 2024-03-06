@@ -9,7 +9,7 @@ import SearchInput from '../searchInput'
 import MoviePagination from '../moviePagination'
 import GenresProvider from '../genresProvider'
 import SessionProvider from '../sessionProvider/sessionProvider'
-import MovieCard from '../movie-card'
+import RatedContainer from '../ratedContainer'
 
 const { TabPane } = Tabs
 
@@ -20,7 +20,7 @@ const App = () => {
   const [error, setError] = useState(null)
   const [totalResults, setTotalResults] = useState(0)
   const [page, setPage] = useState(1)
-  const [rating, setRating] = useState({})
+  const [tab, setTab] = useState(1)
 
   // В компоненте App:
 
@@ -74,41 +74,18 @@ const App = () => {
     setSearchQuery(e.target.value)
   }, 500)
 
-  const handleRateChange = (movieId, value) => {
-    setRating((prevRating) => ({
-      ...prevRating,
-      [movieId]: value,
-    }))
-  }
-
   return (
     <SessionProvider>
       <GenresProvider>
         <div className="top-container">
-          <Tabs defaultActiveKey="1" className="ant-tabs">
+          <Tabs defaultActiveKey="1" className="ant-tabs" onChange={(key) => setTab(key)} centered>
             <TabPane tab="Search" key="1">
               <SearchInput onChange={handleSearchInputChange} />
-              <Container
-                movies={movies}
-                isLoading={isLoading}
-                error={error}
-                renderMovie={(movie) => (
-                  <MovieCard
-                    key={movie.id}
-                    imageSrc={movie.poster_path}
-                    title={movie.title}
-                    subtitle={movie.release_date}
-                    description={movie.overview}
-                    categories={movie.genre_ids}
-                    rating={rating[movie.id] || 0} // Передача рейтинга фильма в компонент MovieCard
-                    onRate={(value) => handleRateChange(movie.id, value)}
-                  />
-                )}
-              />
+              <Container movies={movies} isLoading={isLoading} error={error} />
               {Boolean(totalResults) && <MoviePagination totalResults={totalResults} setPage={setPage} />}
             </TabPane>
             <TabPane tab="Rated" key="2">
-              Content of Tab Pane 2
+              <RatedContainer key={tab} />
             </TabPane>
           </Tabs>
         </div>
